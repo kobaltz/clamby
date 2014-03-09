@@ -8,6 +8,7 @@ If you have a file upload on your site and you do not scan the files for viruses
 
 In your model with the uploader, you can add the scanner to a before method to scan the file.
 
+```ruby
   before_create :scan_for_viruses
 
   private
@@ -16,7 +17,7 @@ In your model with the uploader, you can add the scanner to a before method to s
       path = self.attribute.url
       Clamby.scan(path)
   end
-
+```
 #Configuration
 
 Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
