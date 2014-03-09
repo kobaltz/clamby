@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Clamby::VERSION
   spec.authors       = ["kobaltz"]
   spec.email         = ["dave@k-innovations.net"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = "Scan file uploads with ClamAV"
+  spec.description   = "Clamby allows users to scan files uploaded with Paperclip or Carrierwave. If a file has a virus, then you can delete this file and discard it without causing harm to other users."
   spec.homepage      = ""
   spec.license       = "MIT"
 
