@@ -19,6 +19,10 @@ In your model with the uploader, you can add the scanner to a before method to s
   end
 ```
 
+***Updating Definitions***
+
+I have done little testing with updating definitions online. However, there is a method that you can call `Clamby.update` which will execute `freshclam`. It is recommended that you follow the instructions below to ensure that this is done automatically on a daily/weekly basis.
+
 ***Viruses Detected***
 
 It's good to note that Clamby will not by default delete files which had a virus. Instead, this is left to you to decide what should occur with that file. Below is an example where if a scan came back `false`, the file would be deleted.
