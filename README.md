@@ -50,8 +50,15 @@ It's good to note that Clamby will not by default delete files which had a virus
 
 Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
 
+There has been added additional functionality where you can override exceptions. If you set the exceptions below to false, then there will not be a hard exception generated. Instead, it will post to your log that an error had occured. By default each one of these configuration options are set to true. You may want to set these to false in your production environment.
+
 ```ruby
-    Clamby.configure({check: false})
+    Clamby.configure({
+      :check => false,
+      :error_clamscan_missing => false,
+      :error_file_missing => false,
+      :error_file_virus => false
+    })
 ```
 
 #Dependencies

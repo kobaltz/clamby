@@ -1,8 +1,13 @@
 require "clamby/version"
-
+require "clamby/exception"
 module Clamby
 
-  @config = {:check => true}
+  @config = {
+    :check => true,
+    :error_clamscan_missing => true,
+    :error_file_missing => true,
+    :error_file_virus => true
+  }
 
   @valid_config_keys = @config.keys
 
@@ -17,8 +22,12 @@ module Clamby
         if scanner
           return true
         elsif not scanner
-          puts "VIRUS DETECTED on #{Time.now}: #{path}"
-          return false
+          if @config[:error_file_virus]
+            raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+          else
+            puts "VIRUS DETECTED on #{Time.now}: #{path}"
+            return false
+          end
         end
       end
     end
@@ -28,23 +37,31 @@ module Clamby
     if @config[:check]
       scanner = system('clamscan')
       if not scanner
-        puts "CLAMSCAN NOT FOUND"
-        return false
+        if @config[:error_clamscan_missing]
+          raise Exceptions::ClamscanMissing.new("Clamscan application not found. Check your installation and path.")
+        else
+          puts "CLAMSCAN NOT FOUND"
+          return false
+        end
       else
         return true
       end
-  else
-    return true
-  end
+    else
+      return true
+    end
   end
 
   def self.file_exists?(path)
     if File.file?(path)
       return true
-  else
-    puts "FILE NOT FOUND on #{Time.now}: #{path}"
-    return false
-  end
+    else
+      if @config[:error_file_missing]
+        raise Exceptions::FileNotFound.new("File not found: #{path}")
+      else
+        puts "FILE NOT FOUND on #{Time.now}: #{path}"
+        return false
+      end
+    end
   end
 
   def self.update
