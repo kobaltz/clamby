@@ -42,15 +42,15 @@ To update the virus database, open a terminal and enter the following command:
 
 `sudo freshclam`
 
-To automate this update you can set up a cron job. I'll show how to update the virus database every day at 8:57 PM. First, open the terminal and su to root.
+To automate this update you can set up a cron job. I'll show how to update the virus database every day at 8:57 PM. 
 
-sudo su
-Now you need to modify the crontab for the root user.
+You need to modify the crontab for the root user.
 
-crontab -e
+`sudo crontab -e`
+
 This opens the root crontab file in a text editor. Add the following line
 
-57 08 * * * sudo freshclam
+`57 08 * * * sudo freshclam`
 
 #LICENSE
 
