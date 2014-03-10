@@ -22,10 +22,9 @@ In your model with the uploader, you can add the scanner to a before method to s
 
 Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
 
-    Clamby.configure do |config|
-		config.check = false
-	end
-
+```ruby
+    Clamby.configure({check: false})
+```
 
 #Dependencies
 
@@ -36,6 +35,22 @@ Configuration is rather limited right now. You can exclude the check if `clamsca
 ***Apple***
 
 `brew install clamav`
+
+***Auto Update****
+
+To update the virus database, open a terminal and enter the following command:
+
+`sudo freshclam`
+
+To automate this update you can set up a cron job. I'll show how to update the virus database every day at 8:57 PM. First, open the terminal and su to root.
+
+sudo su
+Now you need to modify the crontab for the root user.
+
+crontab -e
+This opens the root crontab file in a text editor. Add the following line
+
+57 08 * * * sudo freshclam
 
 #LICENSE
 

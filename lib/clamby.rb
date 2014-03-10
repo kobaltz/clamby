@@ -47,6 +47,10 @@ module Clamby
 	end
   end
 
+  def self.update
+  	system("freshclam")
+  end
+
   def self.config
     @config
   end
