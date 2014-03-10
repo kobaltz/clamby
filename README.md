@@ -6,7 +6,7 @@ If you have a file upload on your site and you do not scan the files for viruses
 
 #Usage
 
-In your model with the uploader, you can add the scanner to a before method to scan the file.
+In your model with the uploader, you can add the scanner to a before method to scan the file. When a file is scanned, a successful scan will return `true`. An unsuccessful scan will return `false`. A scan may be unsuccessful for a number of reasons; `clamscan` could not be found, `clamscan` returned a virus, or the file which you were trying to scan could not be found.
 
 ```ruby
   before_create :scan_for_viruses
@@ -18,6 +18,29 @@ In your model with the uploader, you can add the scanner to a before method to s
       Clamby.scan(path)
   end
 ```
+
+***Viruses Detected***
+
+It's good to note that Clamby will not by default delete files which had a virus. Instead, this is left to you to decide what should occur with that file. Below is an example where if a scan came back `false`, the file would be deleted.
+
+```ruby
+  before_create :scan_for_viruses
+
+  private
+
+  def scan_for_viruses
+      path = self.attribute.url
+      scan_result = Clamby.scan(path)
+      if scan_result
+        return true
+      else
+        File.delete(path)
+        return false
+      end
+  end
+```
+
+
 #Configuration
 
 Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
