@@ -1,4 +1,5 @@
-# Clamby
+![Clamby Logo](https://raw.github.com/kobaltz/clamby/master/clamby_logo.png)
+
 [![GemVersion](https://badge.fury.io/rb/clamby.png)](https://badge.fury.io/rb/clamby.png)
 
 This gem depends on the `clamscan` and `freshclam` daemons to be installed already.
