@@ -15,7 +15,7 @@ module Clamby
     opts.each {|k,v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym}
   end
 
-  def self.scan(path)
+  def self.safe?(path)
     if self.scanner_exists?
       if file_exists?(path)
         scanner = system("clamscan #{path} --no-summary")
@@ -37,7 +37,27 @@ module Clamby
     end
   end
 
-
+  def self.virus?(path)
+    if self.scanner_exists?
+      if file_exists?(path)
+        scanner = system("clamscan #{path} --no-summary")
+        if scanner
+          return false
+        elsif not scanner
+          if @config[:error_file_virus]
+            raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+          else
+            puts "VIRUS DETECTED on #{Time.now}: #{path}"
+            return true
+          end
+        end
+      else
+        return nil
+      end
+    else
+      return nil
+    end
+  end
 
   def self.scanner_exists?
     if @config[:check]

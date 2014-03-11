@@ -1,3 +1,8 @@
+#v1.10
+ - Changed `scan()` to `safe?()`
+ - Added virus?()
+ - Added/Changed `rspec` to accomodate new/changed functionality
+
 #v1.0.5
  - Made default virus detection not throw a warning
  - If scanning a file that doesn't exist, `scan(path)` will return nil.

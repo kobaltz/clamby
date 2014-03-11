@@ -20,19 +20,23 @@ describe Clamby do
   end
 
   it "should scan file as safe" do
-    expect(Clamby.scan(good_path)).to be true
+    expect(Clamby.safe?(good_path)).to be true
+    expect(Clamby.virus?(good_path)).to be false
   end
 
   it "should scan file and return nil" do
-    expect(Clamby.scan(bad_path)).to be nil
+    expect(Clamby.safe?(bad_path)).to be nil
+    expect(Clamby.virus?(bad_path)).to be nil
   end
 
   it "should scan file as dangerous" do
     `wget http://www.eicar.org/download/eicar.com`
     Clamby.configure({:error_file_virus => true})
-    expect{Clamby.scan('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
+    expect{Clamby.safe?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
+    expect{Clamby.virus?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
     Clamby.configure({:error_file_virus => false})
-    expect(Clamby.scan('eicar.com')).to be false
+    expect(Clamby.safe?('eicar.com')).to be false
+    expect(Clamby.virus?('eicar.com')).to be true
     File.delete('eicar.com')
   end
 end
