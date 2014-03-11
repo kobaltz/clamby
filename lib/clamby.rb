@@ -35,7 +35,7 @@ module Clamby
 
   def self.scanner_exists?
     if @config[:check]
-      scanner = system('clamscan')
+      scanner = system('clamscan -V')
       if not scanner
         if @config[:error_clamscan_missing]
           raise Exceptions::ClamscanMissing.new("Clamscan application not found. Check your installation and path.")
