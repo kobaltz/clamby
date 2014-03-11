@@ -1,13 +1,13 @@
 language: ruby
 before_install:
   - gem install bundler -v '>= 1.5.3'
+  - gem install rake
+  - gem install rspec
 rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.1
 install: sudo apt-get install clamav
-install: gem install rake
-install: gem install rspec
 
 gemfile:
   - Gemfile
