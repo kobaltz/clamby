@@ -23,6 +23,10 @@ describe Clamby do
     expect(Clamby.scan(good_path)).to be true
   end
 
+  it "should scan file and return nil" do
+    expect(Clamby.scan(bad_path)).to be nil
+  end
+
   it "should scan file as dangerous" do
     `wget http://www.eicar.org/download/eicar.com`
     Clamby.configure({:error_file_virus => true})

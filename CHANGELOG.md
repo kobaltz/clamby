@@ -1,3 +1,9 @@
+#v1.0.5
+ - Made default virus detection not throw a warning
+ - If scanning a file that doesn't exist, `scan(path)` will return nil.
+ - If scanning a file where `clamscan` doesn't exist, `scan(path)` will return nil.
+ - Added test for nil result on scanning a file that doesn't exist
+
 #v1.0.4
  - Added tests. This WILL download a file with a virus signature. It is a safe file, but is used for the purposes of testing the detection of a virus. Regardless, use caution when running rspec as this could be potentially harmful (doubtful, but be warned).
 

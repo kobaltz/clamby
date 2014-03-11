@@ -8,6 +8,8 @@ If you have a file upload on your site and you do not scan the files for viruses
 
 #Usage
 
+Be sure to check the CHANGELOG as recent changes may affect functionality.
+
 In your model with the uploader, you can add the scanner to a before method to scan the file. When a file is scanned, a successful scan will return `true`. An unsuccessful scan will return `false`. A scan may be unsuccessful for a number of reasons; `clamscan` could not be found, `clamscan` returned a virus, or the file which you were trying to scan could not be found.
 
 ```ruby

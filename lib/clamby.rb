@@ -6,7 +6,7 @@ module Clamby
     :check => true,
     :error_clamscan_missing => true,
     :error_file_missing => true,
-    :error_file_virus => true
+    :error_file_virus => false
   }
 
   @valid_config_keys = @config.keys
@@ -29,9 +29,15 @@ module Clamby
             return false
           end
         end
+      else
+        return nil
       end
+    else
+      return nil
     end
   end
+
+
 
   def self.scanner_exists?
     if @config[:check]
