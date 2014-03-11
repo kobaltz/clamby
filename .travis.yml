@@ -7,7 +7,9 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.1
-install: sudo apt-get install clamav
+install: 
+ - sudo apt-get install clamav
+ - sudo freshclam
 
 gemfile:
   - Gemfile
