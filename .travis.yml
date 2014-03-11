@@ -6,6 +6,8 @@ rvm:
   - 2.0.0
   - 2.1.1
 install: sudo apt-get install clamav
+install: gem install rake
+install: gem install rspec
 
 gemfile:
   - Gemfile
