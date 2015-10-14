@@ -31,6 +31,7 @@ describe Clamby do
 
   it "should scan file as dangerous" do
     `wget http://www.eicar.org/download/eicar.com`
+    `chmod 644 eicar.com`
     Clamby.configure({:error_file_virus => true})
     expect{Clamby.safe?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
     expect{Clamby.virus?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)

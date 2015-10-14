@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/kobaltz/clamby.png?branch=master)](https://travis-ci.org/kobaltz/clamby)
 
 
-This gem depends on the `clamscan` and `freshclam` daemons to be installed already.
+This gem depends on the [clamscan](http://www.clamav.net/) and `freshclam` daemons to be installed already.
 
 If you have a file upload on your site and you do not scan the files for viruses then you not only compromise your software, but also the users of the software and their files. This gem's function is to simply scan a given file.
 
@@ -95,7 +95,7 @@ To update the virus database, open a terminal and enter the following command:
 
 `sudo freshclam`
 
-To automate this update you can set up a cron job. I'll show how to update the virus database every day at 8:57 PM. 
+To automate this update you can set up a cron job. I'll show how to update the virus database every day at 8:57 PM.
 
 You need to modify the crontab for the root user.
 
@@ -116,3 +116,5 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ClamAV is licensed under [GNU GPL](http://www.gnu.org/licenses/gpl.html). The ClamAV software is NOT distributed nor modified with this gem.
