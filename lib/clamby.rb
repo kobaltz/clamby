@@ -44,6 +44,7 @@ module Clamby
   end
 
   def self.file_exists?(path)
+    return false if path.nil?
     return true if File.file?(path)
 
     if @config[:error_file_missing]
