@@ -18,7 +18,7 @@ module Clamby
   def self.safe?(path)
     if self.scanner_exists?
       if file_exists?(path)
-        scanner = system("clamscan #{path} --no-summary")
+        scanner = system("clamdscan #{path} --no-summary")
         if scanner
           return true
         elsif not scanner
@@ -40,7 +40,7 @@ module Clamby
   def self.virus?(path)
     if self.scanner_exists?
       if file_exists?(path)
-        scanner = system("clamscan #{path} --no-summary")
+        scanner = system("clamdscan #{path} --no-summary")
         if scanner
           return false
         elsif not scanner
@@ -61,12 +61,12 @@ module Clamby
 
   def self.scanner_exists?
     if @config[:check]
-      scanner = system('clamscan -V')
+      scanner = system('clamdscan -V')
       if not scanner
-        if @config[:error_clamscan_missing]
-          raise Exceptions::ClamscanMissing.new("Clamscan application not found. Check your installation and path.")
+        if @config[:error_clamdscan_missing]
+          raise Exceptions::clamdscanMissing.new("clamdscan application not found. Check your installation and path.")
         else
-          puts "CLAMSCAN NOT FOUND"
+          puts "clamdscan NOT FOUND"
           return false
         end
       else
