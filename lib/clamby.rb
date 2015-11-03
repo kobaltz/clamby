@@ -4,6 +4,7 @@ module Clamby
 
   @config = {
     :check => true,
+    :daemonize => false,
     :error_clamscan_missing => true,
     :error_file_missing => true,
     :error_file_virus => false
@@ -16,77 +17,41 @@ module Clamby
   end
 
   def self.safe?(path)
-    if self.scanner_exists?
-      if file_exists?(path)
-        scanner = system("clamscan #{path} --no-summary")
-        if scanner
-          return true
-        elsif not scanner
-          if @config[:error_file_virus]
-            raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
-          else
-            puts "VIRUS DETECTED on #{Time.now}: #{path}"
-            return false
-          end
-        end
-      else
-        return nil
-      end
-    else
-      return nil
-    end
+    value =  virus?(path)
+    return nil if value.nil?
+    ! value
   end
 
   def self.virus?(path)
-    if self.scanner_exists?
-      if file_exists?(path)
-        scanner = system("clamscan #{path} --no-summary")
-        if scanner
-          return false
-        elsif not scanner
-          if @config[:error_file_virus]
-            raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
-          else
-            puts "VIRUS DETECTED on #{Time.now}: #{path}"
-            return true
-          end
-        end
-      else
-        return nil
-      end
-    else
-      return nil
-    end
+    return nil unless scanner_exists?
+    return nil unless file_exists?(path)
+    scanner = system("#{clamd_executable_name} #{path} --no-summary")
+
+    return false if scanner
+    return true unless @config[:error_file_virus]
+
+    raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
   end
 
   def self.scanner_exists?
-    if @config[:check]
-      scanner = system('clamscan -V')
-      if not scanner
-        if @config[:error_clamscan_missing]
-          raise Exceptions::ClamscanMissing.new("Clamscan application not found. Check your installation and path.")
-        else
-          puts "CLAMSCAN NOT FOUND"
-          return false
-        end
-      else
-        return true
-      end
-    else
-      return true
-    end
+    return true unless @config[:check]
+    scanner = system('#{clamd_executable_name} -V')
+
+    return true if scanner
+    return false unless @config[:error_clamdscan_missing]
+
+    raise Exceptions::clamdscanMissing.new("#{clamd_executable_name} application not found. Check your installation and path.")
   end
 
   def self.file_exists?(path)
-    if File.file?(path)
-      return true
+    return false if path.nil?
+    return true if File.file?(path)
+
+    if @config[:error_file_missing]
+      raise Exceptions::FileNotFound.new("File not found: #{path}")
     else
-      if @config[:error_file_missing]
-        raise Exceptions::FileNotFound.new("File not found: #{path}")
-      else
-        puts "FILE NOT FOUND on #{Time.now}: #{path}"
-        return false
-      end
+      puts "FILE NOT FOUND on #{Time.now}: #{path}"
+      return false
     end
   end
 
@@ -96,5 +61,13 @@ module Clamby
 
   def self.config
     @config
+  end
+
+  def self.clamd_executable_name(daemonize: false)
+    daemonize? ? "clamdscan" : "clamscan"
+  end
+
+  def self.daemonize?
+    !! @config[:daemonize]
   end
 end

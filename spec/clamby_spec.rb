@@ -30,7 +30,13 @@ describe Clamby do
   end
 
   it "should scan file as dangerous" do
-    `wget http://www.eicar.org/download/eicar.com`
+     `which wget`
+
+     if $?.success?
+      `wget http://www.eicar.org/download/eicar.com`
+     else
+      `curl http://www.eicar.org/download/eicar.com > eicar.com`
+    end
     `chmod 644 eicar.com`
     Clamby.configure({:error_file_virus => true})
     expect{Clamby.safe?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
