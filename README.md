@@ -73,11 +73,14 @@ There has been added additional functionality where you can override exceptions.
 ```ruby
     Clamby.configure({
       :check => false,
+      :daemonize => false,
       :error_clamscan_missing => false,
       :error_file_missing => false,
       :error_file_virus => false
     })
 ```
+
+I highly recommend using the `daemonize` set to true. This will allow for clamscan to remain in memory and will not have to load for each virus scan. It will save several seconds per request.
 
 #Dependencies
 
@@ -107,7 +110,7 @@ This opens the root crontab file in a text editor. Add the following line
 
 #LICENSE
 
-Copyright (c) 2014 kobaltz
+Copyright (c) 2016 kobaltz
 
 MIT License
 
