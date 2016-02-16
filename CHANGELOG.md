@@ -1,4 +1,10 @@
-#v1.10
+#v1.1.1
+ - Daemonize option added
+ - Refactor of logic
+ - Cleanup
+ - Thanks to @hderms for contributing!
+ 
+#v1.1.0
  - Changed `scan()` to `safe?()`
  - Added `virus?()`
  - Added/Changed `rspec` to accomodate new/changed functionality
