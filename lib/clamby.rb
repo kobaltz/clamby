@@ -25,7 +25,7 @@ module Clamby
   def self.virus?(path)
     return nil unless scanner_exists?
     return nil unless file_exists?(path)
-    scanner = system("#{clamd_executable_name} #{path} --no-summary")
+    scanner = system(clamd_executable_name, path, '--no-summary')
 
     return false if scanner
     return true unless @config[:error_file_virus]
@@ -35,7 +35,7 @@ module Clamby
 
   def self.scanner_exists?
     return true unless @config[:check]
-    scanner = system('#{clamd_executable_name} -V')
+    scanner = system(clamd_executable_name, '-V')
 
     return true if scanner
     return false unless @config[:error_clamdscan_missing]
