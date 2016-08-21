@@ -52,7 +52,7 @@ It's good to note that Clamby will not by default delete files which had a virus
   private
 
   def scan_for_viruses
-      path = self.attribute.url
+      path = self.attribute.path
       scan_result = Clamby.safe?(path)
       if scan_result
         return true
