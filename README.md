@@ -8,6 +8,8 @@ If you have a file upload on your site and you do not scan the files for viruses
 
 #Usage
 
+[Drifting Ruby Screencast](https://www.driftingruby.com/episodes/antivirus-uploads-with-clamby?utm_source=github&utm_medium=social&utm_campaign=github)
+
 Be sure to check the CHANGELOG as recent changes may affect functionality.
 
 Just add `gem 'clamby'` to your `Gemfile` and run `bundle install`.
