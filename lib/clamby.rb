@@ -38,7 +38,7 @@ module Clamby
     scanner = system(clamd_executable_name, '-V')
 
     return true if scanner
-    return false unless @config[:error_clamdscan_missing]
+    return false unless @config[:error_clamscan_missing]
 
     raise Exceptions::clamdscanMissing.new("#{clamd_executable_name} application not found. Check your installation and path.")
   end
