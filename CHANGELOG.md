@@ -1,3 +1,6 @@
+#v1.2.3
+ - Fixed typo in config check `error_clamscan_missing` instead of `error_clamdscan_missing`
+
 #v1.1.1
  - Daemonize option added
  - Refactor of logic
