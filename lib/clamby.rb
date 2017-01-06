@@ -40,7 +40,7 @@ module Clamby
     return true if scanner
     return false unless @config[:error_clamscan_missing]
 
-    raise Exceptions::clamdscanMissing.new("#{clamd_executable_name} application not found. Check your installation and path.")
+    raise Exceptions::ClamscanMissing.new("#{clamd_executable_name} application not found. Check your installation and path.")
   end
 
   def self.file_exists?(path)
