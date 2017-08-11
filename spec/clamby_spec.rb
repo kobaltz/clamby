@@ -46,4 +46,26 @@ describe Clamby do
     expect(Clamby.virus?('eicar.com')).to be true
     File.delete('eicar.com')
   end
+
+  # From the clamscan man page:
+  # Pass the file descriptor permissions to clamd. This is useful if clamd is
+  # running as a different user as it is faster than streaming the file to
+  # clamd. Only available if connected to clamd via local(unix) socket.
+  context 'fdpass option' do
+    it 'is false by default' do
+      expect(Clamby.config[:fdpass]).to eq false
+    end
+    it 'accepts an fdpass option in the config' do
+      Clamby.configure(fdpass: true)
+      expect(Clamby.config[:fdpass]).to eq true
+    end
+    it 'does not include fdpass in the command by default' do
+      Clamby.configure(fdpass: false)
+      expect(Clamby.system_command(good_path)).to eq "clamscan #{good_path} --no-summary"
+    end
+    it 'passes the fdpass option when invoking clamscan if it is set' do
+      Clamby.configure(fdpass: true)
+      expect(Clamby.system_command(good_path)).to eq "clamscan --fdpass #{good_path} --no-summary"
+    end
+  end
 end

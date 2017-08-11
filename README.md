@@ -64,11 +64,15 @@ It's good to note that Clamby will not by default delete files which had a virus
 ```
 
 
-#Configuration
+# Configuration
 
 Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
 
 There has been added additional functionality where you can override exceptions. If you set the exceptions below to false, then there will not be a hard exception generated. Instead, it will post to your log that an error had occured. By default each one of these configuration options are set to true. You may want to set these to false in your production environment.
+
+Setting the `fdpass` configuration option to `true` will pass the `--fdpass` option to clamscan. This might be useful if you are encountering permissions problems between clamscan and files being created by your application. From the clamscan man page:
+
+`--fdpass : Pass the file descriptor permissions to clamd. This is useful if clamd is running as a different user as it is faster than streaming the file to clamd. Only available if connected to clamd via local(unix) socket.`
 
 ```ruby
     Clamby.configure({
@@ -76,13 +80,14 @@ There has been added additional functionality where you can override exceptions.
       :daemonize => false,
       :error_clamscan_missing => false,
       :error_file_missing => false,
-      :error_file_virus => false
+      :error_file_virus => false,
+      :fdpass => false
     })
 ```
 
 I highly recommend using the `daemonize` set to true. This will allow for clamscan to remain in memory and will not have to load for each virus scan. It will save several seconds per request.
 
-#Dependencies
+# Dependencies
 
 ***Ubuntu***
 
@@ -108,7 +113,7 @@ This opens the root crontab file in a text editor. Add the following line
 
 `57 08 * * * sudo freshclam`
 
-#LICENSE
+# LICENSE
 
 Copyright (c) 2016 kobaltz
 
