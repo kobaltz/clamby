@@ -1,3 +1,6 @@
+#v1.2.5
+ - [bess](https://github.com/kobaltz/clamby/commits/master?author=bess) added `fdpass` option
+
 #v1.2.3
  - Fixed typo in config check `error_clamscan_missing` instead of `error_clamdscan_missing`
 
