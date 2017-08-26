@@ -6,7 +6,7 @@ This gem depends on the [clamscan](http://www.clamav.net/) and `freshclam` daemo
 
 If you have a file upload on your site and you do not scan the files for viruses then you not only compromise your software, but also the users of the software and their files. This gem's function is to simply scan a given file.
 
-#Usage
+# Usage
 
 [Drifting Ruby Screencast](https://www.driftingruby.com/episodes/antivirus-uploads-with-clamby?utm_source=github&utm_medium=social&utm_campaign=github)
 
