@@ -1,3 +1,6 @@
+#v1.3.0
+ - Fixed Dangerous Send on `system_command` method
+
 #v1.2.5
  - [bess](https://github.com/kobaltz/clamby/commits/master?author=bess) added `fdpass` option
 
