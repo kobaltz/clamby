@@ -61,11 +61,11 @@ describe Clamby do
     end
     it 'does not include fdpass in the command by default' do
       Clamby.configure(fdpass: false)
-      expect(Clamby.system_command(good_path)).to eq "clamscan #{good_path} --no-summary"
+      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
     end
     it 'passes the fdpass option when invoking clamscan if it is set' do
       Clamby.configure(fdpass: true)
-      expect(Clamby.system_command(good_path)).to eq "clamscan --fdpass #{good_path} --no-summary"
+      expect(Clamby.system_command(good_path)).to eq ["clamscan", "--fdpass", good_path, "--no-summary"]
     end
   end
 end

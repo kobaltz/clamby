@@ -27,17 +27,19 @@ module Clamby
   # @param [String] path path to the file being scanned
   # @return [String] command to be executed
   def self.system_command(path)
-    command = clamd_executable_name
-    command += ' --fdpass' if @config[:fdpass]
-    command += " #{path}"
-    command += ' --no-summary'
+    command = [].tap do |cmd|
+      cmd << clamd_executable_name
+      cmd << '--fdpass' if @config[:fdpass]
+      cmd << path
+      cmd << '--no-summary'
+    end
     command
   end
 
   def self.virus?(path)
     return nil unless scanner_exists?
     return nil unless file_exists?(path)
-    scanner = system(system_command(path))
+    scanner = system(*system_command(path))
 
     return false if scanner
     return true unless @config[:error_file_virus]

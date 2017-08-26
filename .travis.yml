@@ -4,9 +4,10 @@ before_install:
   - gem install rake
   - gem install rspec
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1.1
+  - 2.3.4
+  - 2.4.1
 install: 
  - sudo apt-get install clamav
  - sudo freshclam
