@@ -81,7 +81,8 @@ Setting the `fdpass` configuration option to `true` will pass the `--fdpass` opt
       :error_clamscan_missing => false,
       :error_file_missing => false,
       :error_file_virus => false,
-      :fdpass => false
+      :fdpass => false,
+      :silence_output => false
     })
 ```
 
