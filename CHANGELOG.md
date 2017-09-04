@@ -1,30 +1,33 @@
-#v1.3.0
+# v1.3.1
+ - [zealot128](https://github.com/kobaltz/clamby/commits/master?author=zealot128) added `silence_output` option
+
+# v1.3.0
  - Fixed Dangerous Send on `system_command` method
 
-#v1.2.5
+# v1.2.5
  - [bess](https://github.com/kobaltz/clamby/commits/master?author=bess) added `fdpass` option
 
-#v1.2.3
+# v1.2.3
  - Fixed typo in config check `error_clamscan_missing` instead of `error_clamdscan_missing`
 
-#v1.1.1
+# v1.1.1
  - Daemonize option added
  - Refactor of logic
  - Cleanup
  - Thanks to @hderms for contributing!
  
-#v1.1.0
+# v1.1.0
  - Changed `scan()` to `safe?()`
  - Added `virus?()`
  - Added/Changed `rspec` to accomodate new/changed functionality
 
-#v1.0.5
+# v1.0.5
  - Made default virus detection not throw a warning
  - If scanning a file that doesn't exist, `scan(path)` will return nil.
  - If scanning a file where `clamscan` doesn't exist, `scan(path)` will return nil.
  - Added test for nil result on scanning a file that doesn't exist
 
-#v1.0.4
+# v1.0.4
  - Added tests. This WILL download a file with a virus signature. It is a safe file, but is used for the purposes of testing the detection of a virus. Regardless, use caution when running rspec as this could be potentially harmful (doubtful, but be warned).
 
 ```ruby
@@ -56,7 +59,7 @@ Finished in 17.79 seconds
 
  - Changed `scanner_exists?` method to check `clamscan -V` for version instead of just `clamscan` which was causing a virus scan on the local folder. This ended up throwing false checks since I had a virus test file in the root of the directory.
 
- #v1.0.3
+ # v1.0.3
   - Added exceptions
   - New configuration options
 
