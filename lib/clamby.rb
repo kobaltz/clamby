@@ -8,7 +8,8 @@ module Clamby
     :error_clamscan_missing => true,
     :error_file_missing => true,
     :error_file_virus => false,
-    :fdpass => false
+    :fdpass => false,
+    :silence_output => false
   }
 
   @valid_config_keys = @config.keys
@@ -32,6 +33,7 @@ module Clamby
       cmd << '--fdpass' if @config[:fdpass]
       cmd << path
       cmd << '--no-summary'
+      cmd << { out: File::NULL } if @config[:silence_output]
     end
     command
   end
@@ -49,7 +51,7 @@ module Clamby
 
   def self.scanner_exists?
     return true unless @config[:check]
-    scanner = system(clamd_executable_name, '-V')
+    scanner = system(clamd_executable_name, '-V', @config[:silence_output] ? { out: File::NULL } : {})
 
     return true if scanner
     return false unless @config[:error_clamscan_missing]
@@ -70,7 +72,7 @@ module Clamby
   end
 
   def self.update
-    system("freshclam")
+    system("freshclam", @config[:silence_output] ? { out: File::NULL } : {})
   end
 
   def self.config
