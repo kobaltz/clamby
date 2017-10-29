@@ -92,7 +92,10 @@ I highly recommend using the `daemonize` set to true. This will allow for clamsc
 
 ***Ubuntu***
 
-`sudo apt-get install clamav`
+`sudo apt-get install clamav clamav-daemon`
+
+Note, `clamav-daemon` is optional but recommended. It's needed if you wish to
+run ClamAV in daemon mode.
 
 ***Apple***
 
