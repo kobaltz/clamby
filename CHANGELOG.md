@@ -1,3 +1,6 @@
+# v1.3.2
+ - [emilong](https://github.com/kobaltz/clamby/commits/master?author=emilong) added `stream` option
+ 
 # v1.3.1
  - [zealot128](https://github.com/kobaltz/clamby/commits/master?author=zealot128) added `silence_output` option
 
