@@ -1,16 +1,18 @@
 require "clamby/version"
 require "clamby/exception"
 module Clamby
-
-  @config = {
+  DEFAULT_CONFIG = {
     :check => true,
     :daemonize => false,
     :error_clamscan_missing => true,
     :error_file_missing => true,
     :error_file_virus => false,
     :fdpass => false,
-    :silence_output => false
-  }
+    :silence_output => false,
+    :stream => false
+  }.freeze
+
+  @config = DEFAULT_CONFIG.dup
 
   @valid_config_keys = @config.keys
 
@@ -31,6 +33,7 @@ module Clamby
     command = [].tap do |cmd|
       cmd << clamd_executable_name
       cmd << '--fdpass' if @config[:fdpass]
+      cmd << '--stream' if @config[:stream] && @config[:daemonize]
       cmd << path
       cmd << '--no-summary'
       cmd << { out: File::NULL } if @config[:silence_output]

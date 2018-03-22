@@ -74,6 +74,10 @@ Setting the `fdpass` configuration option to `true` will pass the `--fdpass` opt
 
 `--fdpass : Pass the file descriptor permissions to clamd. This is useful if clamd is running as a different user as it is faster than streaming the file to clamd. Only available if connected to clamd via local(unix) socket.`
 
+Setting the `stream` configuration option will stream the file to the daemon. This may be useful for forcing streaming as a test for local development. Only works when also specifying `daemonize`. From the clamdscan man page:
+
+`--stream : Forces file streaming to clamd. This is generally not needed as clamdscan detects automatically if streaming is required. This option only exists for debugging and testing purposes, in all other cases --fdpass is preferred.`
+
 ```ruby
     Clamby.configure({
       :check => false,
@@ -82,7 +86,8 @@ Setting the `fdpass` configuration option to `true` will pass the `--fdpass` opt
       :error_file_missing => false,
       :error_file_virus => false,
       :fdpass => false,
-      :silence_output => false
+      :silence_output => false,
+      :stream => false
     })
 ```
 

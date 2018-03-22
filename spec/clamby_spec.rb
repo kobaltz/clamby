@@ -4,6 +4,8 @@ good_path = 'README.md'
 bad_path = 'BAD_FILE.md'
 
 describe Clamby do
+  before { Clamby.configure(Clamby::DEFAULT_CONFIG.dup) }
+
   it "should find files." do
     expect(Clamby.file_exists?(good_path)).to be true
   end
@@ -25,6 +27,7 @@ describe Clamby do
   end
 
   it "should scan file and return nil" do
+    Clamby.configure({:error_file_missing => false})
     expect(Clamby.safe?(bad_path)).to be nil
     expect(Clamby.virus?(bad_path)).to be nil
   end
@@ -66,6 +69,32 @@ describe Clamby do
     it 'passes the fdpass option when invoking clamscan if it is set' do
       Clamby.configure(fdpass: true)
       expect(Clamby.system_command(good_path)).to eq ["clamscan", "--fdpass", good_path, "--no-summary"]
+    end
+  end
+
+  # From the clamscan man page:
+  # Forces file streaming to clamd. This is generally not needed as clamdscan
+  # detects automatically if streaming is required. This option only exists for
+  # debugging and testing purposes, in all other cases --fdpass is preferred.
+  context 'stream option' do
+    it 'is false by default' do
+      expect(Clamby.config[:stream]).to eq false
+    end
+    it 'accepts an stream option in the config' do
+      Clamby.configure(stream: true)
+      expect(Clamby.config[:stream]).to eq true
+    end
+    it 'does not include stream in the command by default' do
+      Clamby.configure(stream: false)
+      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
+    end
+    it 'omits the stream option when invoking clamscan if it is set, but daemonize isn\'t' do
+      Clamby.configure(stream: true)
+      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
+    end
+    it 'passes the stream option when invoking clamscan if it is set with daemonize' do
+      Clamby.configure(stream: true, daemonize: true)
+      expect(Clamby.system_command(good_path)).to eq ["clamdscan", "--stream", good_path, "--no-summary"]
     end
   end
 end
