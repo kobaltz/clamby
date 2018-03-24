@@ -97,4 +97,46 @@ describe Clamby do
       expect(Clamby.system_command(good_path)).to eq ["clamdscan", "--stream", good_path, "--no-summary"]
     end
   end
+
+  context 'error_clamscan_client_error option' do
+    it 'is false by default' do
+      expect(Clamby.config[:error_clamscan_client_error]).to eq false
+    end
+    it 'accepts an error_clamscan_client_error option in the config' do
+      Clamby.configure(error_clamscan_client_error: true)
+      expect(Clamby.config[:error_clamscan_client_error]).to eq true
+    end
+
+    before {
+      Clamby.configure(check: false)
+      allow_any_instance_of(Process::Status).to receive(:exitstatus).and_return(2)
+      allow(Clamby).to receive(:system)
+    }
+
+    context 'when false' do
+      before { Clamby.configure(error_clamscan_client_error: false) }
+
+      it 'virus? returns true when the daemonized client exits with status 2' do
+        Clamby.configure(daemonize: true)
+        expect(Clamby.virus?(good_path)).to eq true
+      end
+      it 'returns true when the client exits with status 2' do
+        Clamby.configure(daemonize: false)
+        expect(Clamby.virus?(good_path)).to eq true
+      end
+    end
+
+    context 'when true' do
+      before { Clamby.configure(error_clamscan_client_error: true) }
+
+      it 'virus? raises when the daemonized client exits with status 2' do
+        Clamby.configure(daemonize: true)
+        expect { Clamby.virus?(good_path) }.to raise_error(Exceptions::ClamscanClientError)
+      end
+      it 'returns true when the client exits with status 2' do
+        Clamby.configure(daemonize: false)
+        expect(Clamby.virus?(good_path)).to eq true
+      end
+    end
+  end
 end

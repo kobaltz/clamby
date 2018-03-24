@@ -1,3 +1,4 @@
+require "English"
 require "clamby/version"
 require "clamby/exception"
 module Clamby
@@ -5,6 +6,7 @@ module Clamby
     :check => true,
     :daemonize => false,
     :error_clamscan_missing => true,
+    :error_clamscan_client_error => false,
     :error_file_missing => true,
     :error_file_virus => false,
     :fdpass => false,
@@ -21,7 +23,7 @@ module Clamby
   end
 
   def self.safe?(path)
-    value =  virus?(path)
+    value = virus?(path)
     return nil if value.nil?
     ! value
   end
@@ -44,12 +46,24 @@ module Clamby
   def self.virus?(path)
     return nil unless scanner_exists?
     return nil unless file_exists?(path)
-    scanner = system(*system_command(path))
+    system(*system_command(path))
 
-    return false if scanner
-    return true unless @config[:error_file_virus]
+    case $CHILD_STATUS.exitstatus
+    when 0
+      return false
+    when 2
+      # clamdscan returns 2 whenever error other than a detection happens
+      if @config[:error_clamscan_client_error] && @config[:daemonize]
+        raise Exceptions::ClamscanClientError.new("Clamscan client error")
+      end
 
-    raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+      # returns true to maintain legacy behavior
+      return true
+    else
+      return true unless @config[:error_file_virus]
+
+      raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+    end
   end
 
   def self.scanner_exists?
