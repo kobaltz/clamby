@@ -1,3 +1,6 @@
+# v1.4.0
+ - [emilong](https://github.com/kobaltz/clamby/commits/master?author=emilong) added `:error_clamscan_client_error => false` option to prevent error from missing running daemon or clamscan.
+
 # v1.3.2
  - [emilong](https://github.com/kobaltz/clamby/commits/master?author=emilong) added `stream` option
  
