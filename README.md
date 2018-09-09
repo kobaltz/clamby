@@ -66,17 +66,7 @@ It's good to note that Clamby will not by default delete files which had a virus
 
 # Configuration
 
-Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to a config file, `clamby_setup.rb` to your initializers directory.
-
-There has been added additional functionality where you can override exceptions. If you set the exceptions below to false, then there will not be a hard exception generated. Instead, it will post to your log that an error had occured. By default each one of these configuration options are set to true. You may want to set these to false in your production environment.
-
-Setting the `fdpass` configuration option to `true` will pass the `--fdpass` option to clamscan. This might be useful if you are encountering permissions problems between clamscan and files being created by your application. From the clamscan man page:
-
-`--fdpass : Pass the file descriptor permissions to clamd. This is useful if clamd is running as a different user as it is faster than streaming the file to clamd. Only available if connected to clamd via local(unix) socket.`
-
-Setting the `stream` configuration option will stream the file to the daemon. This may be useful for forcing streaming as a test for local development. Only works when also specifying `daemonize`. From the clamdscan man page:
-
-`--stream : Forces file streaming to clamd. This is generally not needed as clamdscan detects automatically if streaming is required. This option only exists for debugging and testing purposes, in all other cases --fdpass is preferred.`
+Configuration is rather limited right now. You can exclude the check if `clamscan` exists which will save a bunch of time for scanning your files. However, for development purposes, your machine may not have `clamscan` installed and you may wonder why it's not working properly. This is just to give you a reminder to install `clamscan` on your development machine and production machine. You can add the following to an initializer, for example `config/initializers/clamby.rb`:
 
 ```ruby
     Clamby.configure({
@@ -86,12 +76,37 @@ Setting the `stream` configuration option will stream the file to the daemon. Th
       :error_file_missing => false,
       :error_file_virus => false,
       :fdpass => false,
-      :silence_output => false,
-      :stream => false
+      :stream => false,
+      :output => 'medium' # one of 'off', 'low', 'medium', 'high'
     })
 ```
 
+#### Daemonize
+
 I highly recommend using the `daemonize` set to true. This will allow for clamscan to remain in memory and will not have to load for each virus scan. It will save several seconds per request.
+
+#### Error suppression
+
+There has been added additional functionality where you can override exceptions. If you set the exceptions below to false, then there will not be a hard exception generated. Instead, it will post to your log that an error had occured. By default each one of these configuration options are set to true. You may want to set these to false in your production environment.
+
+#### Pass file descriptor permissions to clamd
+
+Setting the `fdpass` configuration option to `true` will pass the `--fdpass` option to clamscan. This might be useful if you are encountering permissions problems between clamscan and files being created by your application. From the clamscan man page:
+
+`--fdpass : Pass the file descriptor permissions to clamd. This is useful if clamd is running as a different user as it is faster than streaming the file to clamd. Only available if connected to clamd via local(unix) socket.`
+
+#### Force streaming files to clamd
+
+Setting the `stream` configuration option will stream the file to the daemon. This may be useful for forcing streaming as a test for local development. Only works when also specifying `daemonize`. From the clamdscan man page:
+
+`--stream : Forces file streaming to clamd. This is generally not needed as clamdscan detects automatically if streaming is required. This option only exists for debugging and testing purposes, in all other cases --fdpass is preferred.`
+
+#### Output levels
+
+- *off*: suppress all output
+- *low*: show errors, but nothing else
+- *medium*: show errors and briefly what happened _(default)_
+- *high*: as verbose as possible
 
 # Dependencies
 
@@ -102,7 +117,7 @@ I highly recommend using the `daemonize` set to true. This will allow for clamsc
 Note, `clamav-daemon` is optional but recommended. It's needed if you wish to
 run ClamAV in daemon mode.
 
-***Apple***
+***macOS***
 
 `brew install clamav`
 
