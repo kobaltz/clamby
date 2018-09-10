@@ -3,6 +3,9 @@ module Clamby
   class Command
     EXECUTABLES = %w(clamscan clamdscan freshclam)
 
+    # Array containing the complete command line.
+    attr_accessor :command
+
     # Returns the appropriate scan executable, based on clamd being used.
     def self.scan_executable
       return 'clamdscan' if Clamby.config[:daemonize]
@@ -13,13 +16,30 @@ module Clamby
     def self.scan(path)
       file_exists?(path)
 
-      args = %w[--no-summary]
+      args = [path, '--no-summary']
       if Clamby.config[:daemonize]
         args << '--fdpass' if Clamby.config[:fdpass]
         args << '--stream' if Clamby.config[:stream]
       end
 
       new.run scan_executable, *args
+
+      case $CHILD_STATUS.exitstatus
+      when 0
+        return false
+      when 2
+        # clamdscan returns 2 whenever error other than a detection happens
+        if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
+          raise Exceptions::ClamscanClientError.new("Clamscan client error")
+        end
+
+        # returns true to maintain legacy behavior
+        return true
+      else
+        return true unless Clemby.config[:error_file_virus]
+
+        raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+      end
     end
 
     # Update the virus definitions.
@@ -42,12 +62,10 @@ module Clamby
     #   run('clamscan', '-V')
     def run(executable, *args)
       raise "`#{executable}` is not permitted" unless EXECUTABLES.include?(executable)
-      args = args | default_args
+      self.command = args | default_args
+      self.command = command.sort.unshift(executable)
 
-      system(
-        *args.sort.unshift(executable),
-        system_options
-      )
+      system(*self.command, system_options)
     end
 
     private

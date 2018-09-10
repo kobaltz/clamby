@@ -31,7 +31,7 @@ module Clamby
       opts[:output_level] = 'off'
     end
 
-    opts.each {|k,v| @config[k.to_sym] = v if valid_config_keys.include? k.to_sym}
+    opts.each {|k,v| config[k.to_sym] = v if valid_config_keys.include? k.to_sym}
   end
 
   def self.safe?(path)
@@ -43,31 +43,14 @@ module Clamby
   def self.virus?(path)
     return nil unless scanner_exists?
     Command.scan path
-
-    case $CHILD_STATUS.exitstatus
-    when 0
-      return false
-    when 2
-      # clamdscan returns 2 whenever error other than a detection happens
-      if @config[:error_clamscan_client_error] && @config[:daemonize]
-        raise Exceptions::ClamscanClientError.new("Clamscan client error")
-      end
-
-      # returns true to maintain legacy behavior
-      return true
-    else
-      return true unless @config[:error_file_virus]
-
-      raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
-    end
   end
 
   def self.scanner_exists?
-    return true unless @config[:check]
+    return true unless config[:check]
     scanner = Command.clamscan_version
 
     return true if scanner
-    return false unless @config[:error_clamscan_missing]
+    return false unless config[:error_clamscan_missing]
 
     raise Exceptions::ClamscanMissing.new("#{Command.scan_executable} not found. Check your installation and path.")
   end
@@ -77,6 +60,6 @@ module Clamby
   end
 
   def self.daemonize?
-    !! @config[:daemonize]
+    !! config[:daemonize]
   end
 end
