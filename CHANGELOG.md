@@ -1,3 +1,6 @@
+# v1.5.0
+ - [tilsammans](https://github.com/kobaltz/clamby/commits?author=tilsammans) added queit, verbose and Command class
+
 # v1.4.0
  - [emilong](https://github.com/kobaltz/clamby/commits/master?author=emilong) added `:error_clamscan_client_error => false` option to prevent error from missing running daemon or clamscan.
 
