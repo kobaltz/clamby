@@ -11,7 +11,7 @@ describe Clamby::Command do
   describe 'scan' do
     include_context 'paths'
 
-    let :runner { instance_double(described_class) }
+    let(:runner){ instance_double(described_class) }
 
     describe 'exceptions' do
       it "can be configured to raise exception when file is missing" do
@@ -37,13 +37,13 @@ describe Clamby::Command do
 
         described_class.scan(good_path)
       end
+
       it 'passes the fdpass option when invoking clamscan if it is set' do
         Clamby.configure(fdpass: true)
         expect(runner).to receive(:run).with('clamscan', good_path, '--no-summary')
         allow(described_class).to receive(:new).and_return(runner)
 
         described_class.scan(good_path)
-
 
         expect(runner).to receive(:run).with('clamscan', good_path, '--fdpass', '--no-summary')
         allow(described_class).to receive(:new).and_return(runner)
