@@ -1,24 +1,15 @@
 require 'spec_helper'
-
-good_path = 'README.md'
-bad_path = 'BAD_FILE.md'
+require 'support/shared_context'
+require 'open-uri'
+require 'tempfile'
 
 describe Clamby do
-  before { Clamby.configure(Clamby::DEFAULT_CONFIG.dup) }
+  include_context 'paths'
 
-  it "should find files." do
-    expect(Clamby.file_exists?(good_path)).to be true
-  end
+  before { Clamby.configure(Clamby::DEFAULT_CONFIG.dup) }
 
   it "should find clamscan" do
     expect(Clamby.scanner_exists?).to be true
-  end
-
-  it "should not find files." do
-    Clamby.configure({:error_file_missing => true})
-    expect{Clamby.file_exists?(bad_path)}.to raise_exception(Exceptions::FileNotFound)
-    Clamby.configure({:error_file_missing => false})
-    expect(Clamby.file_exists?(bad_path)).to be false
   end
 
   it "should scan file as safe" do
@@ -33,21 +24,20 @@ describe Clamby do
   end
 
   it "should scan file as dangerous" do
-     `which wget`
-
-     if $?.success?
-      `wget http://www.eicar.org/download/eicar.com`
-     else
-      `curl http://www.eicar.org/download/eicar.com > eicar.com`
+    begin
+      download = open('https://secure.eicar.org/eicar.com')
+    rescue SocketError => error
+      pending("Skipped because reasons: #{error}")
     end
-    `chmod 644 eicar.com`
+
+    dangerous = Tempfile.new
     Clamby.configure({:error_file_virus => true})
-    expect{Clamby.safe?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
-    expect{Clamby.virus?('eicar.com')}.to raise_exception(Exceptions::VirusDetected)
+    expect{Clamby.safe?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
+    expect{Clamby.virus?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
     Clamby.configure({:error_file_virus => false})
-    expect(Clamby.safe?('eicar.com')).to be false
-    expect(Clamby.virus?('eicar.com')).to be true
-    File.delete('eicar.com')
+    expect(Clamby.safe?(dangerous)).to be false
+    expect(Clamby.virus?(dangerous)).to be true
+    File.delete(dangerous)
   end
 
   # From the clamscan man page:
@@ -62,14 +52,6 @@ describe Clamby do
       Clamby.configure(fdpass: true)
       expect(Clamby.config[:fdpass]).to eq true
     end
-    it 'does not include fdpass in the command by default' do
-      Clamby.configure(fdpass: false)
-      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
-    end
-    it 'passes the fdpass option when invoking clamscan if it is set' do
-      Clamby.configure(fdpass: true)
-      expect(Clamby.system_command(good_path)).to eq ["clamscan", "--fdpass", good_path, "--no-summary"]
-    end
   end
 
   # From the clamscan man page:
@@ -83,18 +65,6 @@ describe Clamby do
     it 'accepts an stream option in the config' do
       Clamby.configure(stream: true)
       expect(Clamby.config[:stream]).to eq true
-    end
-    it 'does not include stream in the command by default' do
-      Clamby.configure(stream: false)
-      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
-    end
-    it 'omits the stream option when invoking clamscan if it is set, but daemonize isn\'t' do
-      Clamby.configure(stream: true)
-      expect(Clamby.system_command(good_path)).to eq ["clamscan", good_path, "--no-summary"]
-    end
-    it 'passes the stream option when invoking clamscan if it is set with daemonize' do
-      Clamby.configure(stream: true, daemonize: true)
-      expect(Clamby.system_command(good_path)).to eq ["clamdscan", "--stream", good_path, "--no-summary"]
     end
   end
 
