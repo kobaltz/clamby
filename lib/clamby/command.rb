@@ -37,7 +37,7 @@ module Clamby
         # returns true to maintain legacy behavior
         return true
       else
-        return true unless Clemby.config[:error_file_virus]
+        return true unless Clamby.config[:error_file_virus]
 
         raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
       end
@@ -88,7 +88,6 @@ module Clamby
     end
 
     def self.file_exists?(path)
-      return false if path.nil?
       return true if File.file?(path)
 
       if Clamby.config[:error_file_missing]
