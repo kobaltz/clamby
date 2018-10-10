@@ -7,6 +7,7 @@ module Clamby
   DEFAULT_CONFIG = {
     :check => true,
     :daemonize => false,
+    :config_file => nil,
     :error_clamscan_missing => true,
     :error_clamscan_client_error => false,
     :error_file_missing => true,
