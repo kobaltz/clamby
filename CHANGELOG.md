@@ -1,4 +1,7 @@
 # v1.5.0
+ - Exceptions are now raised under Clamby module - could be breaking change
+ - [szajbus](https://github.com/kobaltz/clamby/commits?author=szajbus) fixed specs! and updated README
+ - [broder](https://github.com/kobaltz/clamby/commits?author=broder) added path for config file to address strange clamscan situations
  - [tilsammans](https://github.com/kobaltz/clamby/commits?author=tilsammans) added queit, verbose and Command class
 
 # v1.4.0
