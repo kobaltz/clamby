@@ -31,7 +31,7 @@ module Clamby
       when 2
         # clamdscan returns 2 whenever error other than a detection happens
         if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
-          raise Exceptions::ClamscanClientError.new("Clamscan client error")
+          raise Clamby::ClamscanClientError.new("Clamscan client error")
         end
 
         # returns true to maintain legacy behavior
@@ -39,7 +39,7 @@ module Clamby
       else
         return true unless Clamby.config[:error_file_virus]
 
-        raise Exceptions::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
+        raise Clamby::VirusDetected.new("VIRUS DETECTED on #{Time.now}: #{path}")
       end
     end
 
@@ -91,7 +91,7 @@ module Clamby
       return true if File.file?(path)
 
       if Clamby.config[:error_file_missing]
-        raise Exceptions::FileNotFound.new("File not found: #{path}")
+        raise Clamby::FileNotFound.new("File not found: #{path}")
       else
         puts "FILE NOT FOUND on #{Time.now}: #{path}"
         return false

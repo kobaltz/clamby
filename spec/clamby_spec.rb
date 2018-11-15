@@ -32,8 +32,8 @@ describe Clamby do
 
     dangerous = Tempfile.new
     Clamby.configure({:error_file_virus => true})
-    expect{Clamby.safe?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
-    expect{Clamby.virus?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
+    expect{Clamby.safe?(dangerous)}.to raise_exception(Clamby::VirusDetected)
+    expect{Clamby.virus?(dangerous)}.to raise_exception(Clamby::VirusDetected)
     Clamby.configure({:error_file_virus => false})
     expect(Clamby.safe?(dangerous)).to be false
     expect(Clamby.virus?(dangerous)).to be true
@@ -101,7 +101,7 @@ describe Clamby do
 
       it 'virus? raises when the daemonized client exits with status 2' do
         Clamby.configure(daemonize: true)
-        expect { Clamby.virus?(good_path) }.to raise_error(Exceptions::ClamscanClientError)
+        expect { Clamby.virus?(good_path) }.to raise_error(Clamby::ClamscanClientError)
       end
       it 'returns true when the client exits with status 2' do
         Clamby.configure(daemonize: false)

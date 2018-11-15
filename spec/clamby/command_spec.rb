@@ -19,7 +19,7 @@ describe Clamby::Command do
 
         expect do
           described_class.scan(bad_path)
-        end.to raise_exception(Exceptions::FileNotFound)
+        end.to raise_exception(Clamby::FileNotFound)
       end
       it 'can be configured to return false when file is missing' do
         Clamby.configure({:error_file_missing => false})
