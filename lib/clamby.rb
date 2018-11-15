@@ -1,6 +1,6 @@
 require "English"
 require "clamby/command"
-require "clamby/exception"
+require "clamby/error"
 require "clamby/version"
 
 module Clamby
@@ -53,7 +53,7 @@ module Clamby
     return true if scanner
     return false unless config[:error_clamscan_missing]
 
-    raise Exceptions::ClamscanMissing.new("#{Command.scan_executable} not found. Check your installation and path.")
+    raise Clamby::ClamscanMissing.new("#{Command.scan_executable} not found. Check your installation and path.")
   end
 
   def self.update
