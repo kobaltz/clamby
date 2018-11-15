@@ -21,11 +21,11 @@ describe Clamby::Command do
           described_class.scan(bad_path)
         end.to raise_exception(Exceptions::FileNotFound)
       end
-      it 'can be configured to return false when file is missing' do
+      it 'can be configured to return nil when file is missing' do
         Clamby.configure({:error_file_missing => false})
         command = described_class.scan(bad_path)
 
-        expect(command).to be(false)
+        expect(command).to be(nil)
       end
     end
 

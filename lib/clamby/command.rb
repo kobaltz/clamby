@@ -14,7 +14,7 @@ module Clamby
 
     # Perform a ClamAV scan on the given path.
     def self.scan(path)
-      file_exists?(path)
+      return nil unless file_exists?(path)
 
       args = [path, '--no-summary']
 
