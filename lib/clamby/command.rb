@@ -21,6 +21,7 @@ module Clamby
       if Clamby.config[:daemonize]
         args << '--fdpass' if Clamby.config[:fdpass]
         args << '--stream' if Clamby.config[:stream]
+        args << "--config-file=#{Clamby.config[:config_file]}" if Clamby.config[:config_file] && Clamby.config[:daemonize]
       end
 
       new.run scan_executable, *args

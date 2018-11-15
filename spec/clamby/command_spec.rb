@@ -75,5 +75,36 @@ describe Clamby::Command do
         described_class.scan(good_path)
       end
     end
+
+    describe 'specifying config-file' do
+      it 'does not include the parameter in the clamscan command by default' do
+        Clamby.configure(daemonize: false, stream: false, fdpass: false)
+        expect(runner).to receive(:run).with('clamscan', good_path, '--no-summary')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+      it 'does not include the parameter in the clamdscan command by default' do
+        Clamby.configure(daemonize: true, stream: false, fdpass: false)
+        expect(runner).to receive(:run).with('clamdscan', good_path, '--no-summary')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+      it 'omits the parameter when invoking clamscan if it is set' do
+        Clamby.configure(daemonize: false, stream: false, fdpass: false, config_file: 'clamd.conf')
+        expect(runner).to receive(:run).with('clamscan', good_path, '--no-summary')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+      it 'passes the parameter when invoking clamdscan if it is set' do
+        Clamby.configure(daemonize: true, stream: false, fdpass: false, config_file: 'clamd.conf')
+        expect(runner).to receive(:run).with('clamdscan', good_path, '--no-summary', '--config-file=clamd.conf')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+    end
   end
 end
