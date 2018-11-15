@@ -1,7 +1,5 @@
 require 'spec_helper'
 require 'support/shared_context'
-require 'open-uri'
-require 'tempfile'
 
 describe Clamby do
   include_context 'paths'
@@ -25,12 +23,12 @@ describe Clamby do
 
   it "should scan file as dangerous" do
     begin
-      download = open('https://secure.eicar.org/eicar.com')
+      file = download('https://secure.eicar.org/eicar.com')
     rescue SocketError => error
       pending("Skipped because reasons: #{error}")
     end
 
-    dangerous = Tempfile.new
+    dangerous = file.path
     Clamby.configure({:error_file_virus => true})
     expect{Clamby.safe?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
     expect{Clamby.virus?(dangerous)}.to raise_exception(Exceptions::VirusDetected)
