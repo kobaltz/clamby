@@ -114,5 +114,58 @@ describe Clamby::Command do
         described_class.scan(good_path)
       end
     end
+
+    describe 'specifying custom executable paths' do
+      let(:runner) { described_class.new }
+      let(:custom_path) { '/custom/path' }
+
+      before do
+        Clamby.configure(
+          executable_path_clamscan: "#{custom_path}/clamscan",
+          executable_path_clamdscan: "#{custom_path}/clamdscan",
+          executable_path_freshclam: "#{custom_path}/freshclam",
+        )
+        allow(described_class).to receive(:new).and_return(runner)
+      end
+
+      it 'executes the freshclam executable from the custom path' do
+        expect(runner).to receive(:system).with(
+          "#{custom_path}/freshclam",
+          {}
+        ) { system("exit 0", out: File::NULL) }
+
+        described_class.freshclam
+      end
+
+      context 'when not set with daemonize' do
+        before { Clamby.configure(daemonize: false) }
+
+        it 'executes the clamscan executable from the custom path' do
+          expect(runner).to receive(:system).with(
+            "#{custom_path}/clamscan",
+            '--no-summary',
+            good_path,
+            {}
+          ) { system("exit 0", out: File::NULL) }
+
+          described_class.scan(good_path)
+        end
+      end
+
+      context 'when set with daemonize' do
+        before { Clamby.configure(daemonize: true) }
+
+        it 'executes the clamdscan executable from the custom path' do
+          expect(runner).to receive(:system).with(
+            "#{custom_path}/clamdscan",
+            '--no-summary',
+            good_path,
+            {}
+          ) { system("exit 0", out: File::NULL) }
+
+          described_class.scan(good_path)
+        end
+      end
+    end
   end
 end
