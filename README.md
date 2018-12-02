@@ -79,7 +79,10 @@ Configuration is rather limited right now. You can exclude the check if `clamsca
       :error_file_virus => false,
       :fdpass => false,
       :stream => false,
-      :output => 'medium' # one of 'off', 'low', 'medium', 'high'
+      :output => 'medium', # one of 'off', 'low', 'medium', 'high'
+      :executable_path_clamscan => 'clamscan',
+      :executable_path_clamdscan => 'clamdscan',
+      :executable_path_freshclam => 'freshclam',
     })
 ```
 
@@ -111,6 +114,22 @@ Setting the `stream` configuration option will stream the file to the daemon. Th
 - *low*: show errors, but nothing else
 - *medium*: show errors and briefly what happened _(default)_
 - *high*: as verbose as possible
+
+#### Executable paths
+
+Setting any of the executable paths makes Clamby to use those paths instead of
+the defaults for the system calls. The default configuration for these should be
+perfectly fine for most use cases but it may be required to configure custom
+paths in case ClamAV is manually installed to a custom location.
+
+In order to configure the paths, use the following configuration options:
+
+- *executable_path_clamscan*: defines the executable path for the `clamscan`
+  executable, defaults to `clamscan`
+- *executable_path_clamdscan*: defines the executable path for the `clamdscan`
+  executable, defaults to `clamdscan`
+- *executable_path_freshclam*: defines the executable path for the `freshclam`
+  executable, defaults to `freshclam`
 
 # Dependencies
 
