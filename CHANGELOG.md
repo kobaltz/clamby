@@ -1,3 +1,6 @@
+# v1.5.1
+ - [ahukkanen](https://github.com/kobaltz/clamby/commits?author=ahukkanen) - Configurable execution paths
+
 # v1.5.0
  - Exceptions are now raised under Clamby module - could be breaking change
  - [szajbus](https://github.com/kobaltz/clamby/commits?author=szajbus) fixed specs! and updated README
