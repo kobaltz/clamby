@@ -63,9 +63,9 @@ module Clamby
     #   run('clamscan', file, '--verbose')
     #   run('clamscan', '-V')
     def run(executable, *args)
-      raise "`#{executable}` is not permitted" unless EXECUTABLES.include?(executable)
+      executable_full = executable_path(executable)
       self.command = args | default_args
-      self.command = command.sort.unshift(executable)
+      self.command = command.sort.unshift(executable_full)
 
       system(*self.command, system_options)
     end
@@ -86,6 +86,11 @@ module Clamby
       else
         {}
       end
+    end
+
+    def executable_path(executable)
+      raise "`#{executable}` is not permitted" unless EXECUTABLES.include?(executable)
+      Clamby.config[:"executable_path_#{executable}"]
     end
 
     def self.file_exists?(path)

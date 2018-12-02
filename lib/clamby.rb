@@ -14,7 +14,10 @@ module Clamby
     :error_file_virus => false,
     :fdpass => false,
     :stream => false,
-    :output_level => 'medium'
+    :output_level => 'medium',
+    :executable_path_clamscan => 'clamscan',
+    :executable_path_clamdscan => 'clamdscan',
+    :executable_path_freshclam => 'freshclam',
   }.freeze
 
   @config = DEFAULT_CONFIG.dup
