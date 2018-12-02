@@ -1,6 +1,7 @@
 ![Clamby Logo](https://raw.github.com/kobaltz/clamby/master/clamby_logo.png)
 
 [![GemVersion](https://badge.fury.io/rb/clamby.png)](https://badge.fury.io/rb/clamby.png)
+[![Build Status](https://travis-ci.org/kobaltz/clamby.svg?branch=master)](https://travis-ci.org/kobaltz/clamby)
 
 This gem depends on the [clamscan](http://www.clamav.net/) and `freshclam` daemons to be installed already.
 
