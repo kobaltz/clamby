@@ -107,4 +107,39 @@ describe Clamby do
       end
     end
   end
+
+  context 'executable paths' do
+    context 'executable_path_clamscan option' do
+      it 'is clamscan by default' do
+        expect(Clamby.config[:executable_path_clamscan]).to eq 'clamscan'
+      end
+      it 'accepts an executable_path_clamscan option in the config' do
+        path = '/custom/path/clamscan'
+        Clamby.configure(executable_path_clamscan: path)
+        expect(Clamby.config[:executable_path_clamscan]).to eq path
+      end
+    end
+
+    context 'executable_path_clamdscan option' do
+      it 'is clamdscan by default' do
+        expect(Clamby.config[:executable_path_clamdscan]).to eq 'clamdscan'
+      end
+      it 'accepts an executable_path_clamdscan option in the config' do
+        path = '/custom/path/clamdscan'
+        Clamby.configure(executable_path_clamdscan: path)
+        expect(Clamby.config[:executable_path_clamdscan]).to eq path
+      end
+    end
+
+    context 'executable_path_freshclam option' do
+      it 'is freshclam by default' do
+        expect(Clamby.config[:executable_path_freshclam]).to eq 'freshclam'
+      end
+      it 'accepts an executable_path_freshclam option in the config' do
+        path = '/custom/path/freshclam'
+        Clamby.configure(executable_path_freshclam: path)
+        expect(Clamby.config[:executable_path_freshclam]).to eq path
+      end
+    end
+  end
 end
