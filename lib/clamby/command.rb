@@ -51,7 +51,7 @@ module Clamby
 
     # Show the ClamAV version. Also acts as a quick check if ClamAV functions.
     def self.clamscan_version
-      new.run 'clamscan', '--version'
+      new.run scan_executable, '--version'
     end
 
     # Run the given commands via a system call.
