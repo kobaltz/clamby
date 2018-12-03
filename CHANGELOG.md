@@ -1,3 +1,6 @@
+# v1.6.0
+ - When checking version, use the executable configuration.
+
 # v1.5.1
  - [ahukkanen](https://github.com/kobaltz/clamby/commits?author=ahukkanen) - Configurable execution paths
 
