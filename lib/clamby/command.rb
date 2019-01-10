@@ -21,7 +21,6 @@ module Clamby
       if Clamby.config[:daemonize]
         args << '--fdpass' if Clamby.config[:fdpass]
         args << '--stream' if Clamby.config[:stream]
-        args << "--config-file=#{Clamby.config[:config_file]}" if Clamby.config[:config_file]
       end
 
       new.run scan_executable, *args
@@ -74,6 +73,7 @@ module Clamby
 
     def default_args
       args = []
+      args << "--config-file=#{Clamby.config[:config_file]}" if Clamby.config[:daemonize] && Clamby.config[:config_file]
       args << '--quiet' if Clamby.config[:output_level] == 'low'
       args << '--verbose' if Clamby.config[:output_level] == 'high'
       args
