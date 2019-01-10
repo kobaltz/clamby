@@ -1,6 +1,6 @@
 language: ruby
 before_install:
-  - gem install bundler -v '>= 1.5.3'
+  - gem install bundler
   - gem install rake
   - gem install rspec
 rvm:
