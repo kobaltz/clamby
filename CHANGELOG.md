@@ -1,3 +1,6 @@
+# v1.6.1
+ - [broder](https://github.com/kobaltz/clamby/commits?author=broder) - Fixed issue with detecting clamdscan version when using custom config file
+
 # v1.6.0
  - When checking version, use the executable configuration.
 
