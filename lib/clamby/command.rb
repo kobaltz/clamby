@@ -25,10 +25,12 @@ module Clamby
 
       new.run scan_executable, *args
 
-      case $CHILD_STATUS.exitstatus
+      # $CHILD_STATUS maybe nil if the execution itself (not the client process)
+      # fails
+      case $CHILD_STATUS && $CHILD_STATUS.exitstatus
       when 0
         return false
-      when 2
+      when nil, 2
         # clamdscan returns 2 whenever error other than a detection happens
         if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
           raise Clamby::ClamscanClientError.new("Clamscan client error")
