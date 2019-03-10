@@ -1,3 +1,6 @@
+# v1.6.2
+ - [emilong](https://github.com/kobaltz/clamby/commits?author=emilong) - Handle nil exit status of clamav executable.
+
 # v1.6.1
  - [broder](https://github.com/kobaltz/clamby/commits?author=broder) - Fixed issue with detecting clamdscan version when using custom config file
 
