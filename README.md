@@ -161,6 +161,11 @@ This opens the root crontab file in a text editor. Add the following line
 
 `57 08 * * * sudo freshclam`
 
+# Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 # LICENSE
 
 Copyright (c) 2016 kobaltz
