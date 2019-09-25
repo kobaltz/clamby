@@ -17,14 +17,14 @@ Just add `gem 'clamby'` to your `Gemfile` and run `bundle install`.
 
 You can use two methods to scan a file for a virus:
 
-If you use `safe?` to scan a file, it will return true if no viruses were found, false if a virus was found, and nil if there was a problem finding the file or if there was a problem using `clamscan`
+If you use `safe?` to scan a file, it will return `true` if no viruses were found, `false` if a virus was found, and `nil` if there was a problem finding the file or if there was a problem using `clamscan`
 
-`safe?(path_to_file)`
+`Clamby.safe?(path_to_file)`
 
-If you use `virus?` to scan a file, it will return true if a virus was found, false if no virus was found, and nil if there was a problem finding the file or if there was a problem using `clamscan`
+If you use `virus?` to scan a file, it will return `true` if a virus was found, `false` if no virus was found, and `nil` if there was a problem finding the file or if there was a problem using `clamscan`
 
 
-`virus?(path_to_file)`
+`Clamby.virus?(path_to_file)`
 
 In your model with the uploader, you can add the scanner to a before method to scan the file. When a file is scanned, a successful scan will return `true`. An unsuccessful scan will return `false`. A scan may be unsuccessful for a number of reasons; `clamscan` could not be found, `clamscan` returned a virus, or the file which you were trying to scan could not be found.
 
