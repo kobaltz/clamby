@@ -64,6 +64,25 @@ It's good to note that Clamby will not by default delete files which had a virus
   end
 ```
 
+## with ActiveStorage
+
+With ActiveStorage, you don't have access to the file through normal methods, so you'll have to access the file through the `attachment_changes`. 
+
+```ruby
+class User < ApplicationRecord
+  has_one_attached :avatar
+  before_save :scan_for_viruses
+
+  private
+
+  def scan_for_viruses
+    return unless self.attachment_changes['avatar']
+
+    path = self.attachment_changes['avatar'].attachable.tempfile.path
+    Clamby.safe?(path)
+  end
+end
+```
 
 # Configuration
 
