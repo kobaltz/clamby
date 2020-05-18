@@ -15,6 +15,7 @@ module Clamby
     :fdpass => false,
     :stream => false,
     :output_level => 'medium',
+    :datadir => nil,
     :executable_path_clamscan => 'clamscan',
     :executable_path_clamdscan => 'clamdscan',
     :executable_path_freshclam => 'freshclam',

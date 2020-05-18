@@ -23,6 +23,10 @@ module Clamby
         args << '--stream' if Clamby.config[:stream]
       end
 
+      puts "use db : #{Clamby.config[:datadir]}"
+      args << "-d #{Clamby.config[:datadir]}" if Clamby.config[:datadir]
+      puts args.join(' ')
+
       new.run scan_executable, *args
 
       # $CHILD_STATUS maybe nil if the execution itself (not the client process)
@@ -35,7 +39,7 @@ module Clamby
         if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
           raise Clamby::ClamscanClientError.new("Clamscan client error")
         end
-
+ 
         # returns true to maintain legacy behavior
         return true
       else
@@ -47,7 +51,9 @@ module Clamby
 
     # Update the virus definitions.
     def self.freshclam
-      new.run 'freshclam'
+      args = []
+      args << "--datadir=#{Clamby.config[:datadir]}" if Clamby.config[:datadir]
+      new.run 'freshclam', *args
     end
 
     # Show the ClamAV version. Also acts as a quick check if ClamAV functions.
@@ -68,7 +74,7 @@ module Clamby
       self.command = args | default_args
       self.command = command.sort.unshift(executable_full)
 
-      system(*self.command, system_options)
+      system(self.command.join(' '), system_options)
     end
 
     private
