@@ -1,3 +1,3 @@
 module Clamby
-  VERSION = "1.6.2"
+  VERSION = "1.6.5"
 end
