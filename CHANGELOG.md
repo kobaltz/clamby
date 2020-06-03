@@ -1,3 +1,7 @@
+# v1.6.5
+ - [bennacer860](https://github.com/kobaltz/clamby/commits?author=bennacer860) - Added config data dir option
+
+
 # v1.6.2
  - [emilong](https://github.com/kobaltz/clamby/commits?author=emilong) - Handle nil exit status of clamav executable.
 
