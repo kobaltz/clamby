@@ -23,9 +23,7 @@ module Clamby
         args << '--stream' if Clamby.config[:stream]
       end
 
-      puts "use db : #{Clamby.config[:datadir]}"
       args << "-d #{Clamby.config[:datadir]}" if Clamby.config[:datadir]
-      puts args.join(' ')
 
       new.run scan_executable, *args
 
