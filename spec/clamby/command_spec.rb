@@ -134,9 +134,7 @@ describe Clamby::Command do
 
         it 'executes the clamscan executable from the custom path' do
           expect(runner).to receive(:system).with(
-            "#{custom_path}/clamscan",
-            '--no-summary',
-            good_path,
+            "#{custom_path}/clamscan --no-summary #{good_path}",
             {}
           ) { system("exit 0", out: File::NULL) }
 
@@ -149,9 +147,7 @@ describe Clamby::Command do
 
         it 'executes the clamdscan executable from the custom path' do
           expect(runner).to receive(:system).with(
-            "#{custom_path}/clamdscan",
-            '--no-summary',
-            good_path,
+            "#{custom_path}/clamdscan --no-summary #{good_path}",
             {}
           ) { system("exit 0", out: File::NULL) }
 
