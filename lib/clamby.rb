@@ -5,20 +5,20 @@ require "clamby/version"
 
 module Clamby
   DEFAULT_CONFIG = {
-    :check => true,
-    :daemonize => false,
-    :config_file => nil,
-    :error_clamscan_missing => true,
-    :error_clamscan_client_error => false,
-    :error_file_missing => true,
-    :error_file_virus => false,
-    :fdpass => false,
-    :stream => false,
-    :output_level => 'medium',
-    :datadir => nil,
-    :executable_path_clamscan => 'clamscan',
-    :executable_path_clamdscan => 'clamdscan',
-    :executable_path_freshclam => 'freshclam',
+    check: true,
+    daemonize: false,
+    config_file: nil,
+    error_clamscan_missing: true,
+    error_clamscan_client_error: false,
+    error_file_missing: true,
+    error_file_virus: false,
+    fdpass: false,
+    stream: false,
+    output_level: 'medium',
+    datadir: nil,
+    executable_path_clamscan: 'clamscan',
+    executable_path_clamdscan: 'clamdscan',
+    executable_path_freshclam: 'freshclam'
   }.freeze
 
   @config = DEFAULT_CONFIG.dup
@@ -26,8 +26,7 @@ module Clamby
   @valid_config_keys = @config.keys
 
   class << self
-    attr_reader :config
-    attr_reader :valid_config_keys
+    attr_reader :config, :valid_config_keys
   end
 
   def self.configure(opts = {})
@@ -42,16 +41,19 @@ module Clamby
   def self.safe?(path)
     value = virus?(path)
     return nil if value.nil?
+
     ! value
   end
 
   def self.virus?(path)
     return nil unless scanner_exists?
+
     Command.scan path
   end
 
   def self.scanner_exists?
     return true unless config[:check]
+
     scanner = Command.clamscan_version
 
     return true if scanner

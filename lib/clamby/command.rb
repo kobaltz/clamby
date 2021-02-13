@@ -9,7 +9,8 @@ module Clamby
     # Returns the appropriate scan executable, based on clamd being used.
     def self.scan_executable
       return 'clamdscan' if Clamby.config[:daemonize]
-      return 'clamscan'
+
+      'clamscan'
     end
 
     # Perform a ClamAV scan on the given path.
@@ -29,7 +30,7 @@ module Clamby
 
       # $CHILD_STATUS maybe nil if the execution itself (not the client process)
       # fails
-      case $CHILD_STATUS && $CHILD_STATUS.exitstatus
+      case $CHILD_STATUS&.exitstatus
       when 0
         return false
       when nil, 2
@@ -37,7 +38,7 @@ module Clamby
         if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
           raise Clamby::ClamscanClientError.new("Clamscan client error")
         end
- 
+
         # returns true to maintain legacy behavior
         return true
       else
@@ -57,6 +58,17 @@ module Clamby
     # Show the ClamAV version. Also acts as a quick check if ClamAV functions.
     def self.clamscan_version
       new.run scan_executable, '--version'
+    end
+
+    def self.file_exists?(path)
+      return true if File.file?(path)
+
+      if Clamby.config[:error_file_missing]
+        raise Clamby::FileNotFound.new("File not found: #{path}")
+      else
+        puts "FILE NOT FOUND on #{Time.now}: #{path}"
+        return false
+      end
     end
 
     # Run the given commands via a system call.
@@ -96,18 +108,8 @@ module Clamby
 
     def executable_path(executable)
       raise "`#{executable}` is not permitted" unless EXECUTABLES.include?(executable)
+
       Clamby.config[:"executable_path_#{executable}"]
-    end
-
-    def self.file_exists?(path)
-      return true if File.file?(path)
-
-      if Clamby.config[:error_file_missing]
-        raise Clamby::FileNotFound.new("File not found: #{path}")
-      else
-        puts "FILE NOT FOUND on #{Time.now}: #{path}"
-        return false
-      end
     end
   end
 end
