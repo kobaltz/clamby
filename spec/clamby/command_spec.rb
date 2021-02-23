@@ -155,5 +155,11 @@ describe Clamby::Command do
         end
       end
     end
+
+    describe 'special filenames' do
+      it 'does not fail' do
+        expect(described_class.scan(special_path)).to be(false)
+      end
+    end
   end
 end
