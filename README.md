@@ -155,7 +155,7 @@ In order to configure the paths, use the following configuration options:
 
 ***Ubuntu***
 
-`sudo apt-get install clamav clamav-daemon`
+`sudo apt-get install clamav clamdscan clamav-daemon`
 
 Note, `clamav-daemon` is optional but recommended. It's needed if you wish to
 run ClamAV in daemon mode.
