@@ -1,3 +1,6 @@
+# v1.6.8
+ - [codezomb](https://github.com/kobaltz/clamby/commits?author=codezomb)  - Allow paths to be escaped #37
+
 # v1.6.5
  - [bennacer860](https://github.com/kobaltz/clamby/commits?author=bennacer860) - Added config data dir option
 
@@ -25,7 +28,7 @@
 
 # v1.3.2
  - [emilong](https://github.com/kobaltz/clamby/commits/master?author=emilong) added `stream` option
- 
+
 # v1.3.1
  - [zealot128](https://github.com/kobaltz/clamby/commits/master?author=zealot128) added `silence_output` option
 
@@ -43,7 +46,7 @@
  - Refactor of logic
  - Cleanup
  - Thanks to @hderms for contributing!
- 
+
 # v1.1.0
  - Changed `scan()` to `safe?()`
  - Added `virus?()`
@@ -70,7 +73,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 68 [application/octet-stream]
 Saving to: 'eicar.com'
 
-100%[=================>] 68          --.-K/s   in 0s      
+100%[=================>] 68          --.-K/s   in 0s
 
 2014-03-10 21:35:50 (13.0 MB/s) - 'eicar.com' saved [68/68]
 
