@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["dave@k-innovations.net"]
   spec.summary       = "Scan file uploads with ClamAV"
   spec.description   = "Clamby allows users to scan files uploaded with Paperclip or Carrierwave. If a file has a virus, then you can delete this file and discard it without causing harm to other users."
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/kobaltz/clamby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
