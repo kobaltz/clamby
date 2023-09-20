@@ -84,6 +84,32 @@ describe Clamby::Command do
       end
     end
 
+    describe 'reloading virus database' do
+      it 'does not include reload in the command by default' do
+        Clamby.configure
+        expect(runner).to receive(:run).with('clamscan', good_path, '--no-summary')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+
+      it 'omits the reload option when invoking clamscan if it is set, but daemonize isn\'t' do
+        Clamby.configure(reload: true)
+        expect(runner).to receive(:run).with('clamscan', good_path, '--no-summary')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+
+      it 'passes the reload option when invoking clamscan if it is set with daemonize' do
+        Clamby.configure(reload: true, daemonize: true)
+        expect(runner).to receive(:run).with('clamdscan', good_path, '--no-summary', '--reload')
+        allow(described_class).to receive(:new).and_return(runner)
+
+        described_class.scan(good_path)
+      end
+    end
+
     describe 'specifying config-file' do
       it 'does not include the parameter in the clamscan command by default' do
         Clamby.configure
