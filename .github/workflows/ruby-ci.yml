@@ -26,6 +26,8 @@ jobs:
         sudo groupadd clamav
         sudo useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav
         sudo apt-get install -y clamav
+        sudo systemctl stop clamav-freshclam
+        sudo pkill freshclam || true
         sudo freshclam
 
     - name: Install Gems
