@@ -23,6 +23,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
+        sudo groupadd clamav
+        sudo useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav
         sudo apt-get install -y clamav
         sudo freshclam
 
