@@ -18,7 +18,6 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler: 1.17.3
 
     - name: Install dependencies
       run: |
