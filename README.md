@@ -1,7 +1,7 @@
 ![Clamby Logo](https://raw.github.com/kobaltz/clamby/master/clamby_logo.png)
 
 [![GemVersion](https://badge.fury.io/rb/clamby.png)](https://badge.fury.io/rb/clamby.png)
-[![Build Status](https://travis-ci.org/kobaltz/clamby.svg?branch=master)](https://travis-ci.org/kobaltz/clamby)
+[![Ruby CI](https://github.com/kobaltz/clamby/actions/workflows/ruby-ci.yml/badge.svg)](https://github.com/kobaltz/clamby/actions/workflows/ruby-ci.yml)
 
 This gem depends on the [clamscan](http://www.clamav.net/) and `freshclam` daemons to be installed already.
 
@@ -66,7 +66,7 @@ It's good to note that Clamby will not by default delete files which had a virus
 
 ## with ActiveStorage
 
-With ActiveStorage, you don't have access to the file through normal methods, so you'll have to access the file through the `attachment_changes`. 
+With ActiveStorage, you don't have access to the file through normal methods, so you'll have to access the file through the `attachment_changes`.
 
 ```ruby
 class User < ApplicationRecord
