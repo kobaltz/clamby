@@ -14,6 +14,7 @@ module Clamby
     :error_file_virus => false,
     :fdpass => false,
     :stream => false,
+    :reload => false,
     :output_level => 'medium',
     :datadir => nil,
     :executable_path_clamscan => 'clamscan',

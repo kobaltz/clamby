@@ -99,6 +99,7 @@ Configuration is rather limited right now. You can exclude the check if `clamsca
       :error_file_virus => false,
       :fdpass => false,
       :stream => false,
+      :reload => false,
       :output_level => 'medium', # one of 'off', 'low', 'medium', 'high'
       :executable_path_clamscan => 'clamscan',
       :executable_path_clamdscan => 'clamdscan',
@@ -127,6 +128,12 @@ Setting the `fdpass` configuration option to `true` will pass the `--fdpass` opt
 Setting the `stream` configuration option will stream the file to the daemon. This may be useful for forcing streaming as a test for local development. Only works when also specifying `daemonize`. From the clamdscan man page:
 
 `--stream : Forces file streaming to clamd. This is generally not needed as clamdscan detects automatically if streaming is required. This option only exists for debugging and testing purposes, in all other cases --fdpass is preferred.`
+
+#### Force streaming files to clamd
+
+Setting the `reload` configuration option to `true` will pass the `--reload` option  to the daemon. Only works when also specifying `daemonize`. From the clamdscan man page:
+
+`--reload : Request clamd to reload virus database.`
 
 #### Output levels
 

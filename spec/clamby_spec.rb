@@ -66,6 +66,18 @@ describe Clamby do
     end
   end
 
+  # From the clamscan man page:
+  # Request clamd to reload virus database.
+  context 'reload option' do
+    it 'is false by default' do
+      expect(Clamby.config[:reload]).to eq false
+    end
+    it 'accepts an reload option in the config' do
+      Clamby.configure(reload: true)
+      expect(Clamby.config[:reload]).to eq true
+    end
+  end
+
   context 'error_clamscan_client_error option' do
     it 'is false by default' do
       expect(Clamby.config[:error_clamscan_client_error]).to eq false

@@ -21,6 +21,7 @@ module Clamby
       if Clamby.config[:daemonize]
         args << '--fdpass' if Clamby.config[:fdpass]
         args << '--stream' if Clamby.config[:stream]
+        args << '--reload' if Clamby.config[:reload]
       end
 
       args << "-d #{Clamby.config[:datadir]}" if Clamby.config[:datadir]
