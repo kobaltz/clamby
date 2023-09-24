@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.3.4', '2.4.1', '2.5.3', '2.6.3', '2.6.5', '2.6.6', '2.7.2']
+        ruby-version: ['2.6.3', '2.6.5', '2.6.6', '2.7.2']
         gemfile: ['Gemfile']
 
     steps:
