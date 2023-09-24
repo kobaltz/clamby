@@ -1,0 +1,36 @@
+name: Ruby CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.3.4', '2.4.1', '2.5.3', '2.6.3', '2.6.5', '2.6.6', '2.7.2']
+        gemfile: ['Gemfile']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler: 1.17.3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clamav
+        sudo freshclam
+
+    - name: Install Gems
+      run: |
+        gem install rake
+        gem install rspec
+        bundle install --jobs 4 --retry 3
+
+    - name: Run tests
+      run: bundle exec rspec
