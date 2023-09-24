@@ -13,7 +13,7 @@ RSpec.configure do |config|
   end
 
   def download(url)
-    file = open(url)
+    file = URI.open(url)
     file.is_a?(StringIO) ? to_tempfile(file) : file
   end
 
