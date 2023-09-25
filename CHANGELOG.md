@@ -1,3 +1,9 @@
+# v1.6.10
+ - Moved from Travis CI to GitHub Actions
+
+# v1.6.9
+ - [AndreasRonnqvistCytiva](https://github.com/kobaltz/clamby/commits?author=AndreasRonnqvistCytiva)  - Allow reload option #44
+
 # v1.6.8
  - [codezomb](https://github.com/kobaltz/clamby/commits?author=codezomb)  - Allow paths to be escaped #37
 
