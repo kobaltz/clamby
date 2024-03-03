@@ -30,7 +30,8 @@ module Clamby
 
       # $CHILD_STATUS maybe nil if the execution itself (not the client process)
       # fails
-      case $CHILD_STATUS && $CHILD_STATUS.exitstatus
+      child_status = $CHILD_STATUS.dup # $CHILD_STATUS in Ruby 3.0+ is frozen
+      case child_status && child_status.exitstatus
       when 0
         return false
       when nil, 2
@@ -38,7 +39,7 @@ module Clamby
         if Clamby.config[:error_clamscan_client_error] && Clamby.config[:daemonize]
           raise Clamby::ClamscanClientError.new("Clamscan client error")
         end
- 
+
         # returns true to maintain legacy behavior
         return true
       else
