@@ -94,7 +94,10 @@ describe Clamby do
     }
 
     context 'when false' do
-      before { Clamby.configure(error_clamscan_client_error: false) }
+      before do
+        Clamby.configure(error_clamscan_client_error: false)
+        allow(Clamby::Command).to receive(:scan_status).and_return(2)
+      end
 
       it 'virus? returns true when the daemonized client exits with status 2' do
         Clamby.configure(daemonize: true)
@@ -107,7 +110,10 @@ describe Clamby do
     end
 
     context 'when true' do
-      before { Clamby.configure(error_clamscan_client_error: true) }
+      before do
+        Clamby.configure(error_clamscan_client_error: true)
+        allow(Clamby::Command).to receive(:scan_status).and_return(2)
+      end
 
       it 'virus? raises when the daemonized client exits with status 2' do
         Clamby.configure(daemonize: true)

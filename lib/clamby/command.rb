@@ -12,6 +12,11 @@ module Clamby
       return 'clamscan'
     end
 
+    # $CHILD_STATUS maybe nil if the execution itself (not the client process)
+    def self.scan_status
+      $CHILD_STATUS && $CHILD_STATUS.exitstatus
+    end
+
     # Perform a ClamAV scan on the given path.
     def self.scan(path)
       return nil unless file_exists?(path)
@@ -28,10 +33,7 @@ module Clamby
 
       new.run scan_executable, *args
 
-      # $CHILD_STATUS maybe nil if the execution itself (not the client process)
-      # fails
-      child_status = $CHILD_STATUS.dup # $CHILD_STATUS in Ruby 3.0+ is frozen
-      case child_status && child_status.exitstatus
+      case self.scan_status
       when 0
         return false
       when nil, 2
