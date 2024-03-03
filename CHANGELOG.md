@@ -1,3 +1,6 @@
+# v1.6.11
+ - Updated the tests to pass in Ruby 3.x. This was an issue with rspec-mocks not being able to access the frozen $CHILD_STATUS object. The $CHILD_STATUS was extracted to a class method so that the method could be mocked in the tests with the expected results.
+
 # v1.6.10
  - Moved from Travis CI to GitHub Actions
 
